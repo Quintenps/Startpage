@@ -1,0 +1,29 @@
+{
+  "image-theme": "pokemon",
+  "links": {
+    "video": {
+      "Youtube": "//youtube.com",
+      "Twitch": "//twitch.com"
+    },
+    "entertainment": {
+      "LowEndTalk": "//lowendtalk.com",
+      "Github Trending": "//github.com/trending",
+      "Livestreamfail": "//reddit.com/r/livestreamfail",
+      "Twitter": "//twitter.com"
+    },
+    "graduating": {
+      "Title": "//quinten.dev"
+    },
+    "other": {
+      "Title": "//quinten.dev"
+    }
+  },
+  "rss": [
+    "https://www.security.nl/rss/headlines.xml",
+    "https://www.byte.nl/blog/feed",
+    "https://news.ycombinator.com/rss",
+    "https://krebsonsecurity.com/feed/",
+    "https://magento.com/blog/feed",
+    "https://techcrunch.com/feed/"
+  ]
+}
