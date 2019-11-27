@@ -1,0 +1,5 @@
+.idea/
+media/*
+!media/.gitkeep
+config.json
+rss-cache.json
