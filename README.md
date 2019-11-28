@@ -1,6 +1,7 @@
 # Quinten's Startpage
-For anyone that finds this useful or likes to geek out
-##Features
+For anyone that finds this useful or likes to geek out  
+
+### Features
 - JSON Config file for RSS Links and Quicklinks
 - Multipe colorschemes (Key: pageup)
 - Random image per theme (Pokemon, ShinChan or add your own)
