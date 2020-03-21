@@ -1,13 +1,14 @@
 <?php
 require('rss.php');
 
-$content = json_decode(file_get_contents('config.json'), true);
-$rss = json_decode(file_get_contents('rss-cache.json'), true) ?? [];
+$content = json_decode(file_get_contents(__DIR__.RSS::CONFIG_FILE), true);
+$rss = json_decode(file_get_contents(__DIR__.RSS::CACHE_FILE), true) ?? [];
 
 $images = glob('img/'.$content['image-theme'] .'/*');
 $animationTypes = ['fadeInRight', 'fadeInDown', 'zoomIn', 'pulse'];
 $randomImage = $images[array_rand($images)];
 $randomAnimation = $animationTypes[array_rand($animationTypes)];
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -26,13 +27,13 @@ $randomAnimation = $animationTypes[array_rand($animationTypes)];
             crossorigin="anonymous"></script>
 
 
-    <link rel="stylesheet" href="css/base.css">
-    <link rel="stylesheet" id="color-scheme-pastel" class="color-scheme" href="css/themes/pastel.css">
-    <link rel="stylesheet" disabled id="color-scheme-peekachu" class="color-scheme" href="css/themes/peekachu.css">
-    <link rel="stylesheet" disabled id="color-scheme-jungle" class="color-scheme" href="css/themes/jungle.css">
-    <link rel="stylesheet" disabled id="color-scheme-nightsky" class="color-scheme" href="css/themes/nightsky.css">
-    <link rel="stylesheet" disabled id="color-scheme-deeppurple" class="color-scheme" href="css/themes/deeppurple.css">
-    <link rel="stylesheet" disabled id="color-scheme-itonomy" class="color-scheme" href="css/themes/itonomy.css">
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" id="color-scheme-pastel" class="color-scheme" href="/css/themes/pastel.css">
+    <link rel="stylesheet" disabled id="color-scheme-peekachu" class="color-scheme" href="/css/themes/peekachu.css">
+    <link rel="stylesheet" disabled id="color-scheme-jungle" class="color-scheme" href="/css/themes/jungle.css">
+    <link rel="stylesheet" disabled id="color-scheme-nightsky" class="color-scheme" href="/css/themes/nightsky.css">
+    <link rel="stylesheet" disabled id="color-scheme-deeppurple" class="color-scheme" href="/css/themes/deeppurple.css">
+    <link rel="stylesheet" disabled id="color-scheme-itonomy" class="color-scheme" href="/css/themes/itonomy.css">
 
     <link href="data:image/x-icon;base64,AAABAAEAEBAAAAEACABoBQAAFgAAACgAAAAQAAAAIAAAAAEACAAAAAAAAAEAAAAAAAAAAAAAAAEAAAAAAAAAAAAAQz3uAAsJCQA6DzYAEOf/ABPq+QAU6fsAg268AAUEBQACAgIART/wAAAPAgAJBAUAAgAGAAYCAgACBgcAGOryABPk/gACBQIADAMAAEg68wAkz9IA////AAAEAwAH6f8AAQIHACDg/wBBPPQAE+b/ABXm/wAn4vsAYlaDAAcBAgAE6f4AJl1pAAzq/AABAQEAlYHkAAkDBAAI5f8AAAMDAEFC5gAYAAQAAwMDAAoFBgA6JsAAQz3wAFQ0/QAU5f8AEAADABjl/wAV5PoAL6a+AAIBBgAS5f4AEAEAABTl/gALAgsABgABAA3l/QAHCg4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA6AAAAAAAMAAAAAAAAABIAHBgfMhwcFC0AAAAAAA05IRwiJQMdMwEKFwAAAAAbARUdDwcOKBwvLgYAAAAAKQEVHBwcHBwaKjA8AAAAAAAeCwAcJxwcKwkQAAAAAAAgOwAWHBwcHRYANgAAAAAAAAAZABwcHBwAABwmAAAAAAAAHBwdHBwcHAQ4NBMAAAAAMREcHRwdHBwcIxwiLAAAAiIcBSIiIiIIAAAiACQAACQAIgAAAAAAAAAANTcAAAAAAAAAAAAAAAAAAAAAAAAACSAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP//AADwDwAAwAcAAIAHAACAAwAAgAcAAIAHAACABwAAwAcAAMADAACAAQAAgAEAAIfhAACP+QAAn/8AAP//AAA="
           rel="icon" type="image/x-icon"/>

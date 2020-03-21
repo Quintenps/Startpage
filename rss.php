@@ -6,7 +6,8 @@ class rss
     public $rssLinks;
     public $rssContent;
 
-    const CACHE_FILE = 'rss-cache.json';
+    const CACHE_FILE = '/rss-cache.json';
+    const CONFIG_FILE = '/config.json';
 
     /**
      * rss constructor.
@@ -20,7 +21,7 @@ class rss
 
     public function isCacheExpired()
     {
-        if (!file_exists(self::CACHE_FILE) || (time() - filemtime(self::CACHE_FILE) > 900 )) {
+        if (!file_exists(__DIR__ .self::CACHE_FILE) || (time() - filemtime(__DIR__ .self::CACHE_FILE) > 900 )) {
             return true;
         }
         return false;
@@ -51,6 +52,6 @@ class rss
 
     public function writeCache()
     {
-        file_put_contents('rss-cache.json', json_encode($this->rssContent));
+        file_put_contents(__DIR__ .self::CACHE_FILE, json_encode($this->rssContent));
     }
 }
