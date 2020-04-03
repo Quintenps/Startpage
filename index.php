@@ -1,10 +1,10 @@
 <?php
 require('rss.php');
 
-$content = json_decode(file_get_contents(__DIR__.RSS::CONFIG_FILE), true);
-$rss = json_decode(file_get_contents(__DIR__.RSS::CACHE_FILE), true) ?? [];
+$content = json_decode(file_get_contents(__DIR__ . RSS::CONFIG_FILE), true);
+$rss = json_decode(file_get_contents(__DIR__ . RSS::CACHE_FILE), true) ?? [];
 
-$images = glob('img/'.$content['image-theme'] .'/*');
+$images = glob('img/' . $content['image-theme'] . '/*');
 $animationTypes = ['fadeInRight', 'fadeInDown', 'zoomIn', 'pulse'];
 $randomImage = $images[array_rand($images)];
 $randomAnimation = $animationTypes[array_rand($animationTypes)];
@@ -18,7 +18,7 @@ $randomAnimation = $animationTypes[array_rand($animationTypes)];
     <title>Quinten's startpage</title>
     <link href="https://fonts.googleapis.com/css?family=Fira+Mono|Montserrat&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.3.0/milligram.min.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css"/>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
@@ -43,50 +43,25 @@ $randomAnimation = $animationTypes[array_rand($animationTypes)];
 <div class="container">
     <div class="row banner">
         <div class="column column-50 column-offset-25" style="text-align:center; margin-bottom: 50px;">
-            <img src="<?php echo $randomImage; ?>" id="pokemon" class="animated <?php echo $randomAnimation; ?>" style="width:auto;height:186px">
+            <img src="<?php echo $randomImage; ?>" id="pokemon" class="animated <?php echo $randomAnimation; ?>"
+                 style="width:auto;height:186px">
         </div>
     </div>
     <div class="row">
-        <div class="column column-25">
-            <h1>video</h1>
-            <ul id="video">
-                <?php
-                foreach ($content['links']['video'] as $name => $link) {
-                    echo '<a href="' . $link . '"><li>' . $name . '</li></a>';
-                }
-                ?>
-            </ul>
-        </div>
-        <div class="column column-25">
-            <h1>entertainment</h1>
-            <ul id="entertainment">
-                <?php
-                foreach ($content['links']['entertainment'] as $name => $link) {
-                    echo '<a href="' . $link . '"><li>' . $name . '</li></a>';
-                }
-                ?>
-            </ul>
-        </div>
-        <div class="column column-25">
-            <h1>graduating</h1>
-            <ul id="graduating">
-                <?php
-                foreach ($content['links']['graduating'] as $name => $link) {
-                    echo '<a href="' . $link . '"><li>' . $name . '</li></a>';
-                }
-                ?>
-            </ul>
-        </div>
-        <div class="column column-25">
-            <h1>other</h1>
-            <ul id="other">
-                <?php
-                foreach ($content['links']['other'] as $name => $link) {
-                    echo '<a href="' . $link . '"><li>' . $name . '</li></a>';
-                }
-                ?>
-            </ul>
-        </div>
+        <?php
+        foreach ($content['links'] as $category => $section) {
+            ?>
+            <div class="column">
+                <h1><?= $category ?></h1>
+                <ul>
+                    <?php foreach ($section as $title => $url){ ?>
+                    <a href="<?= $url ?>"> <li><?= $title ?></li><a>
+                    <?php } ?>
+                </ul>
+            </div>
+            <?php
+        }
+        ?>
     </div>
     <div class="row" style="margin-top:50px;">
         <div class="column">
