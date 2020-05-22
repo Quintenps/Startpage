@@ -1,4 +1,6 @@
 {
+  "display-welcome": true,
+  "display-image": false,
   "image-theme": "pokemon",
   "links": {
     "video": {
@@ -8,11 +10,11 @@
     "entertainment": {
       "LowEndTalk": "//lowendtalk.com",
       "Github Trending": "//github.com/trending",
-      "Livestreamfail": "//reddit.com/r/livestreamfail",
       "Twitter": "//twitter.com"
     },
     "other": {
-      "Title": "//quinten.dev"
+      "Whatsapp": "//web.whatsapp.com",
+      "MyFitnessPal": "//www.myfitnesspal.com/food/diary"
     }
   },
   "rss": [
@@ -20,7 +22,6 @@
     "https://www.byte.nl/blog/feed",
     "https://news.ycombinator.com/rss",
     "https://krebsonsecurity.com/feed/",
-    "https://magento.com/blog/feed",
-    "https://techcrunch.com/feed/"
+    "https://magento.com/blog/feed"
   ]
 }

@@ -1,11 +1,27 @@
-html {
-	background: #f7f3ee;
+body {
+    background: #f7f3ee;
 }
 
 h1 {
-	color: #eda6a8;
+    color: #eda6a8;
+}
+
+h2 {
+    color: #9e8de4;
+}
+
+h3 {
+    color: #eda6a8;
+}
+
+h4 {
+    color: #9e8de4;
 }
 
 a {
-	color: #536890;
+    color: #151d28;
+}
+
+a:hover {
+    color: #282828;
 }

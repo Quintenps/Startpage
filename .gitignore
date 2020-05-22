@@ -2,3 +2,4 @@
 media/*
 !media/.gitkeep
 rss-cache.json
+config.json

@@ -1,5 +1,6 @@
 <?php
 require('rss.php');
+require('dateutil.php');
 
 $content = json_decode(file_get_contents(__DIR__ . RSS::CONFIG_FILE), true);
 $rss = json_decode(file_get_contents(__DIR__ . RSS::CACHE_FILE), true) ?? [];
@@ -9,6 +10,7 @@ $animationTypes = ['fadeInRight', 'fadeInDown', 'zoomIn', 'pulse'];
 $randomImage = $images[array_rand($images)];
 $randomAnimation = $animationTypes[array_rand($animationTypes)];
 
+$rss = array_chunk($rss, 5);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,9 +18,8 @@ $randomAnimation = $animationTypes[array_rand($animationTypes)];
 <head>
     <meta charset="utf-8">
     <title>Quinten's startpage</title>
-    <link href="https://fonts.googleapis.com/css?family=Fira+Mono|Montserrat&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.3.0/milligram.min.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css"/>
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" integrity="sha256-h20CPZ0QyXlBuAw7A+KluUYx/3pK+c7lYEpqLTlxjYQ=" crossorigin="anonymous" />
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
@@ -29,11 +30,9 @@ $randomAnimation = $animationTypes[array_rand($animationTypes)];
 
     <link rel="stylesheet" href="/css/base.css">
     <link rel="stylesheet" id="color-scheme-pastel" class="color-scheme" href="/css/themes/pastel.css">
-    <link rel="stylesheet" disabled id="color-scheme-peekachu" class="color-scheme" href="/css/themes/peekachu.css">
-    <link rel="stylesheet" disabled id="color-scheme-jungle" class="color-scheme" href="/css/themes/jungle.css">
     <link rel="stylesheet" disabled id="color-scheme-nightsky" class="color-scheme" href="/css/themes/nightsky.css">
-    <link rel="stylesheet" disabled id="color-scheme-deeppurple" class="color-scheme" href="/css/themes/deeppurple.css">
-    <link rel="stylesheet" disabled id="color-scheme-itonomy" class="color-scheme" href="/css/themes/itonomy.css">
+    <link rel="stylesheet" disabled id="color-scheme-grayblue" class="color-scheme" href="/css/themes/grayblue.css">
+    <link rel="stylesheet" disabled id="color-scheme-activeblue" class="color-scheme" href="/css/themes/activeblue.css">
 
     <link href="data:image/x-icon;base64,AAABAAEAEBAAAAEACABoBQAAFgAAACgAAAAQAAAAIAAAAAEACAAAAAAAAAEAAAAAAAAAAAAAAAEAAAAAAAAAAAAAQz3uAAsJCQA6DzYAEOf/ABPq+QAU6fsAg268AAUEBQACAgIART/wAAAPAgAJBAUAAgAGAAYCAgACBgcAGOryABPk/gACBQIADAMAAEg68wAkz9IA////AAAEAwAH6f8AAQIHACDg/wBBPPQAE+b/ABXm/wAn4vsAYlaDAAcBAgAE6f4AJl1pAAzq/AABAQEAlYHkAAkDBAAI5f8AAAMDAEFC5gAYAAQAAwMDAAoFBgA6JsAAQz3wAFQ0/QAU5f8AEAADABjl/wAV5PoAL6a+AAIBBgAS5f4AEAEAABTl/gALAgsABgABAA3l/QAHCg4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA6AAAAAAAMAAAAAAAAABIAHBgfMhwcFC0AAAAAAA05IRwiJQMdMwEKFwAAAAAbARUdDwcOKBwvLgYAAAAAKQEVHBwcHBwaKjA8AAAAAAAeCwAcJxwcKwkQAAAAAAAgOwAWHBwcHRYANgAAAAAAAAAZABwcHBwAABwmAAAAAAAAHBwdHBwcHAQ4NBMAAAAAMREcHRwdHBwcIxwiLAAAAiIcBSIiIiIIAAAiACQAACQAIgAAAAAAAAAANTcAAAAAAAAAAAAAAAAAAAAAAAAACSAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP//AADwDwAAwAcAAIAHAACAAwAAgAcAAIAHAACABwAAwAcAAMADAACAAQAAgAEAAIfhAACP+QAAn/8AAP//AAA="
           rel="icon" type="image/x-icon"/>
@@ -41,45 +40,53 @@ $randomAnimation = $animationTypes[array_rand($animationTypes)];
 
 <body>
 <div class="container">
+    <?php if ($content['display-welcome']): ?>
     <div class="row banner">
-        <div class="column column-50 column-offset-25" style="text-align:center; margin-bottom: 50px;">
-            <img src="<?php echo $randomImage; ?>" id="pokemon" class="animated <?php echo $randomAnimation; ?>"
+        <div class="col-12" style="margin-bottom: 50px;">
+            <h4><?= date('j F Y', time()) ?></h4>
+            <h3><?= getDayParting() ?></h3>
+
+        </div>
+    </div>
+    <?php endif; ?>
+    <?php if ($content['display-image']): ?>
+    <div class="row banner">
+        <div class="col-12" style="text-align:center; margin-bottom: 50px;">
+            <img src="<?= $randomImage; ?>" id="pokemon" class="animated <?= $randomAnimation; ?>"
                  style="width:auto;height:186px">
         </div>
     </div>
+    <?php endif; ?>
+    <h1>Bookmarks</h1>
     <div class="row">
-        <?php
-        foreach ($content['links'] as $category => $section) {
-            ?>
-            <div class="column">
-                <h1><?= $category ?></h1>
+        <?php foreach ($content['links'] as $category => $section): ?>
+            <div class="col-12 col-md-4">
+                <h2><?= $category ?></h2>
                 <ul>
-                    <?php foreach ($section as $title => $url){ ?>
-                    <a href="<?= $url ?>"> <li><?= $title ?></li><a>
-                    <?php } ?>
+                    <?php foreach ($section as $title => $url): ?>
+                        <li><a href="<?= $url ?>"><?= $title ?></a></li>
+                    <?php endforeach ?>
                 </ul>
             </div>
-            <?php
-        }
-        ?>
+          <?php endforeach; ?>
     </div>
-    <div class="row" style="margin-top:50px;">
-        <div class="column">
+    <div class="row" style="margin-top:50px">
+        <div class="col-12">
             <h1>Latest news</h1>
-            <ul id="feed">
-                <?php
-                $linkLimit = 10;
-                foreach ($rss as $rsslinks) {
-                    $linkLimit--;
-                    echo '<a href="' . $rsslinks['link'] . '"><li class="" aria-label="' . $rsslinks['source'] . '">' . $rsslinks['title'] . '</li></a>';
-
-                    if ($linkLimit <= 0) {
-                        break;
-                    }
-                }
-                ?>
-            </ul>
         </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-md-6">
+            <?php foreach ($rss[0] as $rsslinks):  ?>
+                <?= '<a href="' . $rsslinks['link'] . '"><li class="" aria-label="' . $rsslinks['source'] . '">' . $rsslinks['title'] . '</li></a>' ?>
+            <?php endforeach ?>
+        </div>
+        <div class="col-12 col-md-6">
+            <?php foreach ($rss[1] as $rsslinks):  ?>
+                <?= '<a href="' . $rsslinks['link'] . '"><li class="" aria-label="' . $rsslinks['source'] . '">' . $rsslinks['title'] . '</li></a>' ?>
+            <?php endforeach ?>
+        </div>
+
     </div>
 </div>
 
@@ -87,5 +94,4 @@ $randomAnimation = $animationTypes[array_rand($animationTypes)];
 
 <script src="logic.js?ver=5" type="text/javascript" charset="utf-8" async defer></script>
 </body>
-
 </html>
