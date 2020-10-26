@@ -60,7 +60,7 @@ $rss = array_chunk($rss, 5);
     <h1>Bookmarks</h1>
     <div class="row">
         <?php foreach ($content['links'] as $category => $section): ?>
-            <div class="col-12 col-md-4">
+            <div class="col-sm">
                 <h2><?= $category ?></h2>
                 <ul>
                     <?php foreach ($section as $title => $url): ?>
